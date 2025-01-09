@@ -38,7 +38,9 @@ export const Weather = ({children,onWeather}) => {
             <div className="p-5 md:p-10 col-span-3 md:col-span-3 lg:col-span-2 bg-indigo-950 rounded-3xl" style=  {{background:'#0E1421'}}>
               <div className="grid grid-cols-2">
                   <div>
-                    <button className="text-base bg-violet-500 rounded-3xl px-5 py-1">{onWeather?.location?.name}</button>
+                    <button className="shadow-md shadow-violet-500 text-sm bg-violet-500 rounded-3xl px-5 py-1 text-center font-semibold md:text-lg">
+                      <i className="fa-duotone fa-light fa-location-dot fa-fade mr-1"></i>
+                      {onWeather?.location?.name}</button>
                     <h1 className="text-xl md:text-5xl  mt-8">Monday</h1>
                     <p className="mt-2 text-base text-slate-300">{todayWeather.date}</p>
                     <h3 className="text-xl md:text-5xl mt-7">{Math.round(onWeather?.current?.temp_c)}°</h3>
@@ -69,7 +71,7 @@ export const Weather = ({children,onWeather}) => {
                       <div className="mt-4">
                           <h1 className="text-4xl">{Math.round(onWeather?.current?.uv)}</h1>
                           <h4 className="text-xl">
-                            {onWeather?.current?.uv === 0 && onWeather?.current?.uv <= 2 && 'Very Good'}
+                            {onWeather?.current?.uv >= 0 && onWeather?.current?.uv <= 2 && 'Very Good'}
                             {onWeather?.current?.uv >=3 && onWeather?.current?.uv <= 5 && 'Moderate'}
                             {onWeather?.current?.uv >=6 && onWeather?.current?.uv <= 7 && 'High'}
                             {onWeather?.current?.uv >=8 && onWeather?.current?.uv <= 10 && 'Very High'}
@@ -95,10 +97,10 @@ export const Weather = ({children,onWeather}) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 col-span-2 lg:col-span-2 md:col-span-3  gap-x-10">
+            <div className="grid grid-cols-4 col-span-3 lg:col-span-2 md:col-span-3  gap-x-4 md:gap-x-4 lg:gap-5">
                 <h4 className="col-span-3 text-lg ">Today/Week</h4>
               
-                    <div className="p-3 rounded-2xl gap-x-3 text-center grid grid-cols-3 md:col-span-2 col-span-3  md:grid-cols-6 mt-7" style={{background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)'}}>
+                    <div className="p-3 rounded-2xl gap-x-3 text-center grid grid-cols-3 md:col-span-3 col-span-3  md:grid-cols-6 mt-7" style={{background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)'}}>
                       {hourlyWeather.map((hour) => (
                         <div key={hour.time} className="bg-white bg-opacity-5 rounded-2xl border-2 border-x-slate-300  p-2 flex flex-col justify-center items-center w-16">
                             <p className="font-light">{hour.time}</p>
@@ -108,14 +110,14 @@ export const Weather = ({children,onWeather}) => {
                       ))}
                     </div>
         
-                  <div className="bg-slate-500 rounded-3xl p-5 mt-5 md:ml-5 col-span-0 row-span-0 md:row-span-2 md:col-span-0" style={{background:'#0E1421'}}>
+                  <div className="bg-slate-500 rounded-3xl p-5 mt-5  col-span-0 row-span-0 md:row-span-2 md:col-span-0" style={{background:'#0E1421'}}>
                     <h3 className="">Sunrise</h3>
                     <p className="">{todayWeather.sunrise}</p>
                     <h3 className="">Sunset</h3>
                     <p className="">{todayWeather.sunset}</p>
                   </div>
                   
-                  <div className="mt-16 flex p-5 rounded-3xl col-span-0 md:col-span-2" style={{background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)'}}>
+                  <div className="mt-16 flex p-5 rounded-3xl col-span-2 md:col-span-3" style={{background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)'}}>
                       <div>
                         <h4 className="text-white">Tomorrow</h4>
                         <p className="text-slate-500">Thunderstorm</p>

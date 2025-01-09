@@ -5,7 +5,7 @@ import './App.css';
 
 export const Search = ({ onSearch }) => {
     // Set the default selected city to Bangalore
-    const [search, setSearch] = useState({ value: 'Bangalore', label: 'Bangalore' });
+    const [search, setSearch] = useState('');
 
     const handleInputChange = (searchVal) => {
         setSearch(searchVal);
@@ -15,7 +15,7 @@ export const Search = ({ onSearch }) => {
     const loadOptions = async (inputVal) => { 
         if (!inputVal) {
             return {
-                options: [{ value: 'Bangalore', label: 'Bangalore' }]
+                options: []
             };
         }
         try {

@@ -7,8 +7,9 @@ import { Weather_Api } from './api';
 
 function App() {
 
-  const [selected,setSelected] = useState('');
+  const [selected,setSelected] = useState({value: 'Bangalore', label: 'Bangalore'});
   const [currentWeather,setCurrentWeather] = useState(null);
+  const [loading,setLoading] = useState(true);
 
   const handleSelected = (selectedVal) =>{
     console.log(selectedVal);
@@ -16,21 +17,25 @@ function App() {
   }
 
   const fetchWeather = async () => { 
-      const res = await fetch(`${Weather_Api}&q=${selected?.value}&aqi=yes`);
+      if(!selected) return;
+      const res = await fetch(`${Weather_Api}&q=${selected.value}&aqi=yes`);
       const data = await res.json();
       setCurrentWeather(data);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      setLoading(false);
   }
-  console.log(currentWeather?.current?.uv)
+  
    useEffect(() => {
       fetchWeather();
    },[selected])
    
   return (
     <>
+      { loading ? <p className='flex items-center justify-center h-96'>Loading...</p> : <Weather onWeather={currentWeather}>
+          <Search onSearch={handleSelected}></Search>
+        </Weather>
+    }
     
-      <Weather onWeather={currentWeather}>
-        <Search onSearch={handleSelected}></Search>
-      </Weather>
     </>
   )
 }
