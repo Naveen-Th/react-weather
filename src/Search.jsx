@@ -29,7 +29,7 @@ export const Search = ({ onSearch }) => {
             };
         } catch (err) { 
             console.error(err.message);
-            return { options: [] }; // Return an empty array in case of an error
+            return { options: [] }; 
         }
     };
 
