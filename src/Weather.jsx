@@ -7,36 +7,34 @@ var desc;
 var color;
 var rangeColor;
 const getUv = (uv) => {
+  rangeColor = 'accent-white';
   switch (true) {
     case (uv >= 0 && uv <= 2):
       condition = 'Very Good';
       desc = 'No special protection needed';
       color = 'border-l-green-500';
-      rangeColor = 'accent-green-500';
       break;
     case (uv >= 3 && uv <= 5):
       condition = 'Moderate';
       desc = 'Wear sunglasses'
       color = 'border-l-yellow-500';
-      rangeColor = 'accent-yellow-500';
       break;
     case (uv >= 6 && uv <= 7):
       condition = 'High';
       desc = 'Wear protective clothing';
       color = 'border-l-orange-500';
-      rangeColor = 'accent-orange-500';
+
       break;
     case (uv >= 8 && uv <= 10):
       condition = 'Very High';
       desc = 'Wear a wide-brimmed hat and sunglasses';
       color = 'border-l-red-500';
-      rangeColor = 'accent-red-500';
+      
       break;
     case (uv > 10):
       condition = 'Extreme';
       desc = 'Avoid sun exposure as much as possible';
       color = 'border-l-violet-500';
-      rangeColor = 'accent-violet-500';
       break;
     default:
       return 'Index Value Out Of Range';
@@ -124,7 +122,8 @@ export const Weather = ({ children, onWeather }) => {
                       {condition}
                     </h4>
                     <label for="disabled-range-slider-usage" className="sr-only"> range</label>
-                    <input type="range" className={`${rangeColor} range-slider  w-full`} min="0" max="10" value={onWeather?.current?.uv} readOnly />
+                    <input type="range" className={`h-2 ${rangeColor} range-slider bg-gradient-to-r from-green-400 via-yellow-400 to-purple-600 rounded-lg appearance-none "
+                      w-full`} min="0" max="10" value={onWeather?.current?.uv} readOnly />
                     <p className="text-xs">
                       {desc}
                     </p>
@@ -144,19 +143,12 @@ export const Weather = ({ children, onWeather }) => {
           <div className="grid grid-cols-4 col-span-3 lg:col-span-2 md:col-span-3  gap-x-4 md:gap-x-4 lg:gap-5">
             <h4 className="col-span-3 text-lg ">Today/Week</h4>
 
-            <div className="p-0 rounded-2xl gap-x-3 text-center grid grid-cols-3  col-span-6  md:grid-cols-6 mt-7" style={{ background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)' }}>
+            <div className="p-3 rounded-2xl gap-x-3 text-center grid grid-cols-3  col-span-6  md:grid-cols-6 mt-7" style={{ background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)' }}>
 
               <div className=" bg-black/50  ring-4 ring-black/35 rounded-3xl col-span-6 shadow-black shadow-2xl">
                 <ReactApexChart hourly={even} fullhr={hourData} city={title}></ReactApexChart>
               </div>
 
-            </div>
-
-            <div className="bg-slate-500 rounded-3xl p-5 mt-5  col-span-0 row-span-0 md:row-span-2 md:col-span-0" style={{ background: '#0E1421' }}>
-              <h3 className="">Sunrise</h3>
-              <p className="">{todayWeather.sunrise}</p>
-              <h3 className="">Sunset</h3>
-              <p className="">{todayWeather.sunset}</p>
             </div>
 
             <div className="col-span-4 md:col-span-3" >
