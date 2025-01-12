@@ -146,13 +146,11 @@ export const Weather = ({ children, onWeather }) => {
             <h4 className="col-span-3 text-lg ">Today/Week</h4>
 
             <div className="p-3 rounded-2xl gap-x-3 text-center grid grid-cols-3 md:col-span-3 col-span-3  md:grid-cols-6 mt-7" style={{ background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)' }}>
-              {hourlyWeather.map((hour) => (
-                <div key={hour.time} className="bg-white bg-opacity-5 rounded-2xl border-2 border-x-slate-300  p-2 flex flex-col justify-center items-center w-16">
-                  <p className="font-light">{hour.time}</p>
-                  <img className="mt-2" src="./assets/cloud.webp" alt="Weather Icon" />
-                  <p className="mt-2 font-light">{hour.temp}°</p>
-                </div>
-              ))}
+
+              <div className="m-2 bg-black/50  ring-4 ring-black/35 rounded-3xl col-span-6 shadow-black shadow-2xl">
+                <ReactApexChart hourly={even} fullhr={hourData} city={title}></ReactApexChart>
+              </div>
+
             </div>
 
             <div className="bg-slate-500 rounded-3xl p-5 mt-5  col-span-0 row-span-0 md:row-span-2 md:col-span-0" style={{ background: '#0E1421' }}>
@@ -178,9 +176,7 @@ export const Weather = ({ children, onWeather }) => {
             </div>
 
             <div className="mt-4 col-span-4 bg-white  rounded-3xl">
-            <div className="m-2 bg-white rounded-3xl  shadow-black/70 shadow-2xl">
-              <ReactApexChart hourly={even} city={title}></ReactApexChart>
-            </div>
+            
             </div>
 
           </div>

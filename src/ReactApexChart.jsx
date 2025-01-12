@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 
-export const ReactApexChart = ({ hourly, city }) => {
-  const [state, setState] = React.useState({
+export const ReactApexChart = ({fullhr }) => {
+  const even = fullhr.map((temp)=>temp).filter(index => index % 2 === 0);
+  console.log('even',even);
+  const [state, setState] = useState({
     type: "line",
     height: 440,
     series: [
       {
         name: "Temp",
-        data: hourly,
+        data: fullhr,
       }
     ],
     options: {
@@ -17,19 +19,13 @@ export const ReactApexChart = ({ hourly, city }) => {
           show: false,
         },
       },
-      title: {
-        text: `${city}`, // Set the title here
-        align: 'center',
-        style: {
-          fontSize: '16px',
-          fontWeight: 'bold',
-          color: '#000', // You can customize the color
-        },
-      },
       dataLabels: {
         enabled: false,
       },
-      colors: ["#020617"],
+      fill: {
+        opacity: 0.8,
+      },
+      colors: ['#FF9800'],
       stroke: {
         lineCap: "round",
         curve: "smooth",
@@ -53,7 +49,10 @@ export const ReactApexChart = ({ hourly, city }) => {
           },
         },
         categories: [
-          "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22",
+          "0","1","2","3", "4","5","6","7",
+          "8", "9","10","11", "12", "13",
+          "14","15", "16","17", "18","19","20","21",
+          "22","23"
         ],
       },
       yaxis: {
@@ -72,16 +71,18 @@ export const ReactApexChart = ({ hourly, city }) => {
         strokeDashArray: 5,
         xaxis: {
           lines: {
-            show: true,
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: false,
           },
         },
         padding: {
-          top: 5,
+          top: 0,
           right: 20,
         },
-      },
-      fill: {
-        opacity: 0.8,
       },
       tooltip: {
         theme: "dark",
@@ -89,29 +90,22 @@ export const ReactApexChart = ({ hourly, city }) => {
     },
   });
 
-  // Update the chart when the hourly data or city changes
   useEffect(() => {
     setState(prevState => ({
       ...prevState,
       series: [{
         name: "Temp",
-        data: hourly,
+        data: fullhr,
       }],
-      options: {
-        ...prevState.options,
-        title: {
-          text: `${city}`, // Update the title when city chang
-        },
-      },
     }));
-  }, [hourly, city]);
+  }, [fullhr]);
 
   return (
     <div>
       <div id="chart">
         <ApexCharts options={state.options} series={state.series} type="area" height={350} />
       </div>
-      <div id="html-dist"></div>
+      
     </div>
   );
 };
