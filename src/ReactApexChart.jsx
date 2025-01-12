@@ -3,7 +3,7 @@ import ApexCharts from 'react-apexcharts';
 
 export const ReactApexChart = ({fullhr }) => {
   const even = fullhr.map((temp)=>temp).filter(index => index % 2 === 0);
-  console.log('even',even);
+  console.log('fu',even);
   const [state, setState] = useState({
     type: "line",
     height: 440,
@@ -35,7 +35,7 @@ export const ReactApexChart = ({fullhr }) => {
       },
       xaxis: {
         axisTicks: {
-          show: false,
+          show: true,
         },
         axisBorder: {
           show: false,

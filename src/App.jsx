@@ -15,7 +15,6 @@ function App() {
   const [err,setErr] = useState('')
 
   const handleSelected = (selectedVal) =>{
-    console.log(selectedVal);
     setSelected(selectedVal);
   }
 

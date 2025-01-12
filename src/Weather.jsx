@@ -51,8 +51,7 @@ export const Weather = ({ children, onWeather }) => {
   const hourData = onWeather.forecast.forecastday[0].hour.map((hour) => Math.round(hour.temp_c));
   const even = hourData.map((temp)=>temp).filter(index => index % 2 === 0);
   const title = onWeather?.location?.name;
-  console.log('even',even);
-  console.log('hour',hourData)
+  
   // Placeholder weather data
   const todayWeather = {
     city: "Gubbi",
