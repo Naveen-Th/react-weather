@@ -144,9 +144,9 @@ export const Weather = ({ children, onWeather }) => {
           <div className="grid grid-cols-4 col-span-3 lg:col-span-2 md:col-span-3  gap-x-4 md:gap-x-4 lg:gap-5">
             <h4 className="col-span-3 text-lg ">Today/Week</h4>
 
-            <div className="p-3 rounded-2xl gap-x-3 text-center grid grid-cols-3 md:col-span-3 col-span-3  md:grid-cols-6 mt-7" style={{ background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)' }}>
+            <div className="p-0 rounded-2xl gap-x-3 text-center grid grid-cols-3  col-span-6  md:grid-cols-6 mt-7" style={{ background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)' }}>
 
-              <div className="m-2 bg-black/50  ring-4 ring-black/35 rounded-3xl col-span-6 shadow-black shadow-2xl">
+              <div className=" bg-black/50  ring-4 ring-black/35 rounded-3xl col-span-6 shadow-black shadow-2xl">
                 <ReactApexChart hourly={even} fullhr={hourData} city={title}></ReactApexChart>
               </div>
 

@@ -2,15 +2,15 @@ import React, { useEffect,useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 
 export const ReactApexChart = ({fullhr }) => {
-  const even = fullhr.map((temp)=>temp).filter(index => index % 2 === 0);
-  console.log('fu',even);
+  const two_Hour = fullhr.map((temp)=>temp).filter(index => index % 2 === 0);
+  console.log('Two_Hour',two_Hour);
   const [state, setState] = useState({
     type: "line",
     height: 440,
     series: [
       {
         name: "Temp",
-        data: fullhr,
+        data: two_Hour,
       }
     ],
     options: {
@@ -49,10 +49,7 @@ export const ReactApexChart = ({fullhr }) => {
           },
         },
         categories: [
-          "0","1","2","3", "4","5","6","7",
-          "8", "9","10","11", "12", "13",
-          "14","15", "16","17", "18","19","20","21",
-          "22","23"
+          
         ],
       },
       yaxis: {
@@ -95,7 +92,7 @@ export const ReactApexChart = ({fullhr }) => {
       ...prevState,
       series: [{
         name: "Temp",
-        data: fullhr,
+        data: two_Hour,
       }],
     }));
   }, [fullhr]);
