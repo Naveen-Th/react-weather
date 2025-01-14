@@ -1,11 +1,8 @@
 
-import './App.css'
 import { Search } from './Search';
 import { useEffect, useState } from 'react';
 import { Weather } from './Weather';
 import { Weather_Api } from './api';
-import { Open_Weather } from "./api";
-import { Wea } from './Wea';
 
 function App() {
 
@@ -45,7 +42,6 @@ function App() {
           <Search onSearch={handleSelected}></Search>
         </Weather>
     }
-    <Wea></Wea>
     </>
   )
 }

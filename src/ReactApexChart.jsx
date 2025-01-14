@@ -23,55 +23,55 @@ export const ReactApexChart = ({ fullhr }) => {
         }
       },
       dataLabels: {
-        enabled: false,
+        enabled: false,  // Disable data labels
       },
-      fill: {
-        type: 'gradient', 
-        gradient: {
-          shade: 'dark',
-          type: 'vertical',
-          shadeIntensity: 0.5,
-          gradientToColors: ['#2196F3'],
-          opacityFrom: 1,
-          opacityTo: 0.1,
-          stops: [0, 100], // Gradually transition from orange to blue
-          colorStops: [
-            { offset: 0, color: '#FF8C00', opacity: 0.6 },
-            { offset: 100, color: '#2196F3', opacity: 0.2 }, 
-          ]
-        }
-      },
+      
       forecastDataPoints: {
         count: 1,
         fillOpacity: 0.5,
-        strokeWidth: 3,
+        strokeWidth: 2,
         dashArray: 10,
       },
-      colors: ['white'],
+      fill: {
+        colors: ['#FF7700'],
+        opacity: 0,
+        type: 'gradient',
+        gradient: {
+            shade: 'light',
+            type: "vertical",
+            shadeIntensity: 1,
+            gradientToColors: ['#1ecfe3'],
+            inverseColors: false,
+            opacityFrom: 0.8,
+            opacityTo: 0,
+            stops: [5,100],
+            colorStops: []
+        }
+      },
       stroke: {
-        lineCap: "round", // Rounded corners for smoothness
-        curve: "smooth",  // Smooth curve for the line
-        width: 3,         // Thin line for subtlety
-        colors: ['#efcef5'],
+        lineCap: "round", 
+        curve: "smooth",  
+        width: 2.3,         
+        colors: ['orangered'],
       },
       markers: {
         size: 0, // No markers, just the line
       },
       xaxis: {
         axisTicks: {
-          show: false,  
+          show: false,  // Hide x-axis ticks for minimal design
         },
         axisBorder: {
-          show: false,  
+          show: false,  // Hide axis borders
         },
         labels: {
           style: {
-            colors: "#888", // Light gray for the axis labels
-            fontSize: "12px", // Subtle font size
+            colors: "#B0BEC5", // Light gray for axis labels
+            fontSize: "12px",   // Smaller font size
             fontFamily: "inherit",
             fontWeight: 400,
           },
-          rotate: -45, // Rotate labels for better visibility
+          rotate: -45, // Rotate x-axis labels for better readability
         },
         categories: [
           "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24"
@@ -80,8 +80,8 @@ export const ReactApexChart = ({ fullhr }) => {
       yaxis: {
         labels: {
           style: {
-            colors: "#888", // Light gray for the y-axis labels
-            fontSize: "12px", // Subtle font size
+            colors: "#B0BEC5", // Light gray for the y-axis labels
+            fontSize: "12px", // Smaller font size
             fontFamily: "inherit",
             fontWeight: 400,
           },
@@ -89,25 +89,29 @@ export const ReactApexChart = ({ fullhr }) => {
       },
       grid: {
         show: true,
-        borderColor: "#ddd", // Light border color
-        strokeDashArray: 5,  // Dashed grid lines, subtle like Apple’s charts
+        borderColor: "#ECEFF1", // Very light grid lines
+        strokeDashArray: 6,  // Dashed grid lines for a cleaner look
         xaxis: {
           lines: {
-            show: false,  // Hide x-axis lines for a minimalist design
+            show: false,  // Hide x-axis lines
           },
         },
         yaxis: {
           lines: {
-            show: false,  // Hide y-axis lines for cleaner look
+            show: false,  // Hide y-axis lines
           },
         },
         padding: {
           top: 0,
-          right: 20,
+          right: 0,
         },
       },
       tooltip: {
-        theme: "dark", // Use dark theme for tooltips
+        theme: "dark", // Dark tooltip for modern look
+        style: {
+          fontSize: "12px", // Tooltip font size
+          fontFamily: "inherit",
+        },
       },
     },
   });

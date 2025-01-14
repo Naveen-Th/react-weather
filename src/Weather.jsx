@@ -1,179 +1,244 @@
 import React from "react";
-import im from './assets/cloud.webp';
 import { ReactApexChart } from "./ReactApexChart";
+import { Image } from "./Image";
 
-var condition;
-var desc;
-var color;
-var rangeColor;
-const getUv = (uv) => {
-  rangeColor = 'accent-white';
+
+var air_condition;
+var air_desc
+const getAir = (air) => {
   switch (true) {
-    case (uv >= 0 && uv <= 2):
-      condition = 'Very Good';
-      desc = 'No special protection needed';
-      color = 'border-l-green-500';
+    case ( air >= 0 && air <= 3):
+      air_condition = 'Low';
+      air_desc = 'The air is clean and safe. No health risks.';
       break;
-    case (uv >= 3 && uv <= 5):
-      condition = 'Moderate';
-      desc = 'Wear sunglasses'
-      color = 'border-l-yellow-500';
+    case (air >= 4 && air <= 6):
+      air_condition = 'Moderate';
+      air_desc = 'The air quality is acceptable, but sensitive people (like those with asthma) may notice slight effects.';
+      break;
+    case (air >= 7 && air <= 8):
+      air_condition = 'High';
+      air_desc = 'The air is unhealthy for sensitive groups. This includes people with respiratory or heart conditions';
+      break;
+    case (air >= 9 && air <= 10):
+      air_condition = 'High';
+      air_desc = 'The air is unhealthy for everyone. Prolonged exposure can cause serious health issues.';
+      break;
+    case (air > 10):
+      air_condition = 'Hazardous)';
+      air_desc = 'The air quality is extremely hazardous. It poses a serious health risk to everyone, including healthy individuals.';
+      break;
+    default:
+      return 'Index Value Out Of Range';
+  }
+};
+var uv_condition;
+var uv_desc;
+const getUv = (uv) => {
+  switch (true) {
+    case ( uv >= 0 && uv <= 2):
+      uv_condition = 'Low';
+     uv_desc = 'No protection needed. Enjoy the sun';
+      break;
+    case (uv >=3  && uv <= 5):
+      uv_condition = 'Moderate';
+      uv_desc = 'Wear sunscreen and sunglasses';
       break;
     case (uv >= 6 && uv <= 7):
-      condition = 'High';
-      desc = 'Wear protective clothing';
-      color = 'border-l-orange-500';
-
+      uv_condition = 'High';
+      uv_desc = 'Use sunscreen, wear protective clothing, and limit sun exposure';
       break;
     case (uv >= 8 && uv <= 10):
-      condition = 'Very High';
-      desc = 'Wear a wide-brimmed hat and sunglasses';
-      color = 'border-l-red-500';
-      
+      air_condition = 'Very High';
+      air_desc = 'Stay in the shade, wear sunscreen, protective clothing, and avoid the sun during peak hours';
       break;
     case (uv > 10):
-      condition = 'Extreme';
-      desc = 'Avoid sun exposure as much as possible';
-      color = 'border-l-violet-500';
+      air_condition = 'Extreme)';
+      air_desc = 'Avoid sun exposure, wear sunscreen, stay in the shade, and cover up.';
       break;
     default:
       return 'Index Value Out Of Range';
   }
 }
 
+
 export const Weather = ({ children, onWeather }) => {
+  const currentWeather = onWeather.current;
+ const location = onWeather.location;
+ const foreCast = onWeather.forecast;
+ const air = currentWeather?.air_quality['gb-defra-index'] ;
   const uv = Math.round(onWeather.current.uv);
+  getAir(air);
   getUv(uv);
   const tomorrowWeather = onWeather.forecast.forecastday[1];
 
   const hourData = onWeather.forecast.forecastday[0].hour.map((hour) => Math.round(hour.temp_c));
-  const even = hourData.map((temp)=>temp).filter(index => index % 2 === 0);
-  const title = onWeather?.location?.name;
   
-  // Placeholder weather data
-  const todayWeather = {
-    city: "Gubbi",
-    date: "24 Dec, 2023",
-    temp: 26,
-    high: 27,
-    low: 10,
-    condition: "Cloudy",
-    feelsLike: 26,
-    uvIndex: 5,
-    windSpeed: "3.3 KP/H",
-    humidity: 60,
-    sunrise: "6:45 AM",
-    sunset: "5:30 PM",
-  };
-  const hourlyWeather = [
-    { time: "1PM", temp: '20' },
-    { time: "2PM", temp: '21' },
-    { time: "3PM", temp: '20' },
-    { time: "4PM", temp: '19' },
-    { time: "5PM", temp: '18' },
-    { time: "6PM", temp: '17' },
-  ];
 
+ const date = new Date();
+ const day = date.getDay();
+ const  days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+ const today = days[day];
   return (
-    <div className=" style.bg min-h-screen text-white font-sans" style={{ background: '#060C1A' }}>
+    <div className="min-h-screen text-black font-sans" >
       <div className="container mx-auto px-4 py-8">
+        {children}
+        <main className="container mx-auto mt-20">
+            <div className="flex flex-col md:flex-row">
 
-
-        <div className="grid grid-cols-1 md:grid-cols-3  gap-12 mt-6">
-          <div className="col-span-3 md:col-span-3 lg:col-span-2 ">
-            {children}
-          </div>
-          <div className="p-5 md:p-10 col-span-3 md:col-span-3 lg:col-span-2  rounded-3xl" style={{ background: '#0E1421' }}>
-            <div className="grid grid-cols-2">
-              <div>
-                <button className="bg-indigo-500 shadow-lg shadow-indigo-500/50 rounded-3xl px-5 py-1 text-center font-semibold md:text-lg">
-                  <i className="fa-duotone fa-light fa-location-dot fa-fade mr-1"></i>
-                  {onWeather?.location?.name}</button>
-                <h1 className="text-xl md:text-5xl  mt-8">Monday</h1>
-                <p className="mt-2 text-base text-slate-300">{todayWeather.date}</p>
-                <h3 className="text-xl md:text-5xl mt-7">{Math.round(onWeather?.current?.temp_c)}°</h3>
-                <p className="mt-2 text-base text-slate-300">High: {Math.round(onWeather?.forecast?.forecastday[0]?.day?.maxtemp_c)} | Low: {todayWeather.low}</p>
-              </div>
-              <div className="mt-0 flex items-end justify-center flex-col">
-                <img src={onWeather?.current?.condition?.icon} className="md:w-36 md:h-36 h-16 w-20 " />
-                <h4 className="mt-0 text-3xl font-extralight">{onWeather?.current?.condition?.text}</h4>
-                <p className="mt-3 text-base text-slate-300">Feels Like {todayWeather.feelsLike}°C</p>
-                <p className="mt-3 text-base text-slate-300">{onWeather.current.is_day === 0 ? 'Night' : 'Day'}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4 md:p-7 rounded-3xl row-span-2 col-span-3 md:col-span-3 lg:col-span-1" style={{ background: '#0E1421' }}>
-            <h4 className="text-lg">Today Highlight</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 mt-3 gap-5">
-              <div className="bg-indigo-900 p-3 rounded-2xl">
-                <h1>Chance Of Rain: 20%</h1>
-              </div>
-
-              <div className={`${color} rounded-3xl border-l-8  `} >
-                <div className="p-4 bg-indigo-900 rounded-xl text-slate-200 ">
-                  <div className="flex items-center">
-                    <i className="fa-light fa-temperature-list text-lg"></i>
-                    <h1 className="ml-2">UV Index</h1>
-                  </div>
-                  <div className="mt-4">
-                    <h1 className="text-4xl">{Math.round(onWeather?.current?.uv)}</h1>
-                    <h4 className="text-xl">
-                      {condition}
-                    </h4>
-                    <label for="disabled-range-slider-usage" className="sr-only"> range</label>
-                    <input type="range" className={`h-2 ${rangeColor} range-slider bg-gradient-to-r from-green-400 via-yellow-400 to-purple-600 rounded-lg appearance-none "
-                      w-full`} min="0" max="10" value={onWeather?.current?.uv} readOnly />
-                    <p className="text-xs">
-                      {desc}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-indigo-900 p-3 rounded-2xl">
-                <h1>Wind Status: {todayWeather.windSpeed}</h1>
-              </div>
-              <div className="bg-indigo-900 p-3 rounded-2xl">
-                <p>Humidity: {todayWeather.humidity}%</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-4 col-span-3 lg:col-span-2 md:col-span-3  gap-x-4 md:gap-x-4 lg:gap-5">
-            <h4 className="col-span-3 text-lg ">Today/Week</h4>
-
-            <div className="p-3 md:p-5 rounded-3xl gap-x-3 text-center grid grid-cols-3  col-span-6  md:grid-cols-6 mt-7" style={{ background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)' }}>
-
-              <div className=" bg-black/50  ring-4 ring-black/35 rounded-3xl col-span-6 shadow-black shadow-2xl">
-                <ReactApexChart hourly={even} fullhr={hourData} city={title}></ReactApexChart>
-              </div>
-
-            </div>
-
-            <div className="col-span-4 md:col-span-3" >
-                <div className="mt-16 px-4  flex items-center rounded-2xl" style={{ background: 'linear-gradient(250deg, #0E1421 0% 10% , #1D325F 50% 100% , #0E1421 100% 100%)' }}> 
-                  <div> 
-                    <h4 className="text-white">Tomorrow</h4> 
-                    <p className="text-slate-500 text-nowrap">{tomorrowWeather.day.condition.text}</p> 
-                  </div> 
-                  <div className="flex items-center justify-between  w-full">
-                      <h1 className="text-4xl font-light ml-4">{Math.round(tomorrowWeather?.day.maxtemp_c)}°</h1>  
-                      <div className="flex justify-items-end mb-0 ">
-                        <img src={tomorrowWeather.day.condition.icon} alt="Weather Icon" className="w-20" />
+               <div className="p-0 md:p-6 md:w-1/3">
+                  <div className="mb-4 h-[21rem] overflow-hidden rounded-3xl bg-white p-5 shadow-lg">
+                    <div className="flex justify-between">
+                      <h3 className="text-2xl font-semibold">{today}</h3>
+                      <p>{location.localtime.slice(11)}</p>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex flex-col ">
+                        <h4 className="font-semibold">{location.name}<sup><i className="fa-solid fa-location-arrow ml-1"></i></sup></h4>
+                        <h1 className="text-8xl">{Math.round(currentWeather.temp_c)}°</h1>
                       </div>
-                   </div>
-                </div>
-            </div>
+                        <Image onCondition={currentWeather.condition.text}></Image>
+                    </div>
+                    <div className="mt-8 flex flex-row justify-between">
+                        <div className="flex flex-col gap-1">
+                           <div className="flex flex-row gap-1">
+                              <p>Real Feel {Math.round(currentWeather.feelslike_c)}°</p>
+                            </div>
+                            <div className="flex flex-row gap-1">
+                              <p>Wind {Math.round(currentWeather.wind_kph)} KP/H</p>
+                            </div>
+                            <div className="flex flex-row gap-1">
+                              <p>Humidity {Math.round(currentWeather.humidity)}</p>
+                            </div>
+                          </div>
+                          <div className="ml-1 self-end">
+                              <div className="flex flex-col text-right">
+                                <p className="">{currentWeather.condition.text}</p>
+                                <p className="mt-1 text-sm">{currentWeather.is_day === 0 ? 
+                                  <><span>Night</span> <i className="fa-solid fa-moon"></i></> 
+                                  : <><span>Day</span> <i className="fa-solid fa-sun-bright"></i></>}
+                                </p>
+                                <p className="text-xs mt-1">Last Updated :{currentWeather.last_updated}</p>
+                              </div>
+                          </div>
+                    </div>
+                    </div>
+                 </div>
 
-            <div className="mt-4 col-span-4 bg-white  rounded-3xl">
-            
-            </div>
+                 <div className="mt-0 md:mt-7 md:w-2/3">
+                    <div className="grid grid-cols-2 justify-items-center gap-4 px-0 md:grid-cols-3 lg:grid-cols-4">
+                      
+                      <div className="col-span-2 w-full">
+                        <div className="flex h-40 flex-col overflow-hidden rounded-3xl bg-white p-4 shadow-lg">
+                            <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                            <i className="fa-sharp fa-solid fa-leaf"></i>
+                            <h5>Air Pollution</h5>
+                            </div>
+                            <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{air_condition}</h1>
+                              <input type="range" min={0} max={10} className="mt-2 accent-white slider-thumb h-3 w-full appearance-none overflow-hidden rounded-md" value={currentWeather.air_quality['gb-defra-index']} style={{background: 'linear-gradient(90deg, rgb(58, 110, 180) 0%, rgb(126, 212, 87) 20%, rgb(248, 212, 73) 40%, rgb(235, 77, 96) 60%, rgb(180, 96, 231) 80%, rgb(178, 34, 34) 100%)'}} readOnly/>
+                            </div>
+                            <p className="text-xs">{air_desc}</p>
+                        </div>
+                    </div>
 
-          </div>
-        </div>
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-sunrise"></i>
+                          <h5>Sunrise</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].astro.sunrise}</h1>
+                          </div>
+                          <p className="text-xs">Sunset {foreCast.forecastday[0].astro.sunset}</p>  
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-wind"></i>
+                          <h5>Wind</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{Math.round(currentWeather.wind_kph)} Kp/h</h1>
+                          </div>
+                          <div className="flex gap-1">
+                            <i className="fa-sharp fa-solid fa-compass"></i>
+                            <p className="text-xs">{currentWeather.wind_dir}</p>
+                          </div>
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col overflow-hidden rounded-3xl bg-white p-4 shadow-lg">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                            <i className="fa-solid fa-sun-bright"></i>
+                            <h5>UV Index</h5>
+                        </div>
+                        <div className="mt-2 flex flex-col h-full">
+                            <div className="flex items-center gap-2">
+                                <h1 className="text-2xl font-semibold">{Math.round(currentWeather.uv)}</h1>
+                                <h1>{uv_condition}</h1>
+                            </div>
+                            <input type="range" min={0} max={10} className="mt-2 accent-white slider-thumb h-3 w-full appearance-none overflow-hidden rounded-md" value={currentWeather.uv} style={{background: 'linear-gradient(90deg, rgb(58, 110, 180) 0%, rgb(126, 212, 87) 20%, rgb(248, 212, 73) 40%, rgb(235, 77, 96) 60%, rgb(180, 96, 231) 80%, rgb(178, 34, 34) 100%)'}} readOnly/>
+                        </div>
+                          <p className="text-xs">{uv_desc}</p>
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-droplet"></i>
+                          <h5>Precipitation</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].day.totalprecip_mm} mm</h1>
+                              <h1 className="text-sm font-semibold">in last 24 hours</h1>
+                          </div>
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-temperature-high"></i>
+                          <h5>Feels Like</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{Math.round(currentWeather.feelslike_c)}°</h1>
+                          </div>
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-droplet-percent"></i>
+                          <h5>Humidity</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{currentWeather.humidity}%</h1>
+                          </div>
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-eye"></i>
+                          <h5>Visibility</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{Math.round(currentWeather.feelslike_c)}°</h1>
+                          </div>
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-droplet-percent"></i>
+                          <h5>Pressure</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                              <h1 className="text-2xl font-semibold">{currentWeather.humidity}%</h1>
+                          </div>
+                      </div>
+                      
+                                    
+
+                    </div>
+                  </div>
+              </div>
+        </main>
       </div>
-
     </div>
 
   );

@@ -1,7 +1,6 @@
 import { AsyncPaginate } from "react-select-async-paginate";
 import { useState, useEffect } from "react";
 import { Api_Url } from "./api";
-import './App.css';
 
 export const Search = ({ onSearch }) => {
     // Set the default selected city to Bangalore
