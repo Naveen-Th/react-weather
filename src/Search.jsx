@@ -38,7 +38,7 @@ export const Search = ({ onSearch }) => {
     },[search]);
 
     return (
-        <>
+        <div>
             <AsyncPaginate
                 cacheOptions
                 placeholder="Search city.."
@@ -46,8 +46,8 @@ export const Search = ({ onSearch }) => {
                 value={search}
                 debounceTimeout={300}
                 loadOptions={loadOptions}
-                className="bg-black text-black text-start p-2 border border-amber-50 rounded-xl outline-none font-bold" 
+                className="bg-black text-black text-start p-1 border border-amber-50 rounded-xl outline-none font-bold" 
             />
-        </>
+        </div>
     );
 };

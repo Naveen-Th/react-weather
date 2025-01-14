@@ -8,7 +8,7 @@ var air_desc
 const getAir = (air) => {
   switch (true) {
     case ( air >= 0 && air <= 3):
-      air_condition = 'Low';
+      air_condition = 'Good';
       air_desc = 'The air is clean and safe. No health risks.';
       break;
     case (air >= 4 && air <= 6):
@@ -16,11 +16,11 @@ const getAir = (air) => {
       air_desc = 'The air quality is acceptable, but sensitive people (like those with asthma) may notice slight effects.';
       break;
     case (air >= 7 && air <= 8):
-      air_condition = 'High';
+      air_condition = 'Unhealthy';
       air_desc = 'The air is unhealthy for sensitive groups. This includes people with respiratory or heart conditions';
       break;
     case (air >= 9 && air <= 10):
-      air_condition = 'High';
+      air_condition = 'Very Unhealthy';
       air_desc = 'The air is unhealthy for everyone. Prolonged exposure can cause serious health issues.';
       break;
     case (air > 10):
@@ -45,15 +45,15 @@ const getUv = (uv) => {
       break;
     case (uv >= 6 && uv <= 7):
       uv_condition = 'High';
-      uv_desc = 'Use sunscreen, wear protective clothing, and limit sun exposure';
+      uv_desc = 'Use sunscreen, wear protective clothing and limit sun exposure';
       break;
     case (uv >= 8 && uv <= 10):
-      air_condition = 'Very High';
-      air_desc = 'Stay in the shade, wear sunscreen, protective clothing, and avoid the sun during peak hours';
+      uv_condition = 'Very High';
+      uv_desc = 'Stay in the shade, wear sunscreen and avoid the sun during peak hours';
       break;
     case (uv > 10):
-      air_condition = 'Extreme)';
-      air_desc = 'Avoid sun exposure, wear sunscreen, stay in the shade, and cover up.';
+      uv_condition = 'Extreme)';
+      uv_desc = 'Avoid sun exposure, wear sunscreen,stay in the shade, and cover up.';
       break;
     default:
       return 'Index Value Out Of Range';
@@ -107,7 +107,7 @@ export const Weather = ({ children, onWeather }) => {
                               <p>Wind {Math.round(currentWeather.wind_kph)} KP/H</p>
                             </div>
                             <div className="flex flex-row gap-1">
-                              <p>Humidity {Math.round(currentWeather.humidity)}</p>
+                              <p>Humidity {Math.round(currentWeather.humidity)}%</p>
                             </div>
                           </div>
                           <div className="ml-1 self-end">
@@ -127,7 +127,7 @@ export const Weather = ({ children, onWeather }) => {
                  <div className="mt-0 md:mt-7 md:w-2/3">
                     <div className="grid grid-cols-2 justify-items-center gap-4 px-0 md:grid-cols-3 lg:grid-cols-4">
                       
-                      <div className="col-span-2 w-full">
+                      <div className="col-span-2 w-full sticky">
                         <div className="flex h-40 flex-col overflow-hidden rounded-3xl bg-white p-4 shadow-lg">
                             <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                             <i className="fa-sharp fa-solid fa-leaf"></i>
@@ -135,13 +135,13 @@ export const Weather = ({ children, onWeather }) => {
                             </div>
                             <div className="mt-2 flex flex-col h-full">
                               <h1 className="text-2xl font-semibold">{air_condition}</h1>
-                              <input type="range" min={0} max={10} className="mt-2 accent-white slider-thumb h-3 w-full appearance-none overflow-hidden rounded-md" value={currentWeather.air_quality['gb-defra-index']} style={{background: 'linear-gradient(90deg, rgb(58, 110, 180) 0%, rgb(126, 212, 87) 20%, rgb(248, 212, 73) 40%, rgb(235, 77, 96) 60%, rgb(180, 96, 231) 80%, rgb(178, 34, 34) 100%)'}} readOnly/>
+                              <input type="range" min={0} max={10} className="mt-2 accent-white slider-thumb h-2 w-full appearance-none overflow-hidden rounded-md" value={currentWeather.air_quality['gb-defra-index']} style={{background: 'linear-gradient(90deg, rgb(58, 110, 180) 0%, rgb(126, 212, 87) 20%, rgb(248, 212, 73) 40%, rgb(235, 77, 96) 60%, rgb(180, 96, 231) 80%, rgb(178, 34, 34) 100%)'}} readOnly/>
                             </div>
                             <p className="text-xs">{air_desc}</p>
                         </div>
                     </div>
 
-                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg">
                         <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                           <i className="fa-solid fa-sunrise"></i>
                           <h5>Sunrise</h5>
@@ -166,7 +166,7 @@ export const Weather = ({ children, onWeather }) => {
                           </div>
                       </div>
 
-                      <div className="flex h-40 w-full flex-col overflow-hidden rounded-3xl bg-white p-4 shadow-lg">
+                      <div className="flex h-40 w-full flex-col overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
                         <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                             <i className="fa-solid fa-sun-bright"></i>
                             <h5>UV Index</h5>
@@ -176,9 +176,9 @@ export const Weather = ({ children, onWeather }) => {
                                 <h1 className="text-2xl font-semibold">{Math.round(currentWeather.uv)}</h1>
                                 <h1>{uv_condition}</h1>
                             </div>
-                            <input type="range" min={0} max={10} className="mt-2 accent-white slider-thumb h-3 w-full appearance-none overflow-hidden rounded-md" value={currentWeather.uv} style={{background: 'linear-gradient(90deg, rgb(58, 110, 180) 0%, rgb(126, 212, 87) 20%, rgb(248, 212, 73) 40%, rgb(235, 77, 96) 60%, rgb(180, 96, 231) 80%, rgb(178, 34, 34) 100%)'}} readOnly/>
+                            <input type="range" min={0} max={10}  className="mt-2 accent-white slider-thumb h-2 w-full appearance-none overflow-hidden rounded-md" value={currentWeather.uv} style={{background: 'linear-gradient(90deg, rgb(58, 110, 180) 0%, rgb(126, 212, 87) 20%, rgb(248, 212, 73) 40%, rgb(235, 77, 96) 60%, rgb(180, 96, 231) 80%, rgb(178, 34, 34) 100%)'}} readOnly/>
                         </div>
-                          <p className="text-xs">{uv_desc}</p>
+                        <p className="text-xs">{uv_desc}</p>
                       </div>
 
                       <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
@@ -188,8 +188,13 @@ export const Weather = ({ children, onWeather }) => {
                           </div>
                           <div className="mt-2 flex flex-col h-full">
                               <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].day.totalprecip_mm} mm</h1>
-                              <h1 className="text-sm font-semibold">in last 24 hours</h1>
+                              <h1 className="text-sm font-semibold">Today</h1>
                           </div>
+                          <p className="text-xs">
+                            {foreCast.forecastday[1].day.totalprecip_mm === 0 
+                            ? 'No precipitation expected for Tommorrow' 
+                            : `${foreCast.forecastday[1].day.totalprecip_mm} mm of precipitation expected for Tommorrow`}
+                          </p>
                       </div>
 
                       <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
@@ -210,6 +215,7 @@ export const Weather = ({ children, onWeather }) => {
                           <div className="mt-2 flex flex-col h-full">
                               <h1 className="text-2xl font-semibold">{currentWeather.humidity}%</h1>
                           </div>
+                          <p className="text-xs">{`The dew point is ${currentWeather.dewpoint_c}° right now`}</p>    
                       </div>
 
                       <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
@@ -218,17 +224,44 @@ export const Weather = ({ children, onWeather }) => {
                           <h5>Visibility</h5>
                           </div>
                           <div className="mt-2 flex flex-col h-full">
-                              <h1 className="text-2xl font-semibold">{Math.round(currentWeather.feelslike_c)}°</h1>
+                              <h1 className="text-2xl font-semibold">{currentWeather.vis_km} KM</h1>
                           </div>
                       </div>
 
                       <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
                         <div className="flex flex-row gap-1 items-center text-sm font-semibold">
-                          <i className="fa-solid fa-droplet-percent"></i>
+                          <i className="fa-solid fa-gauge-high"></i>
                           <h5>Pressure</h5>
                           </div>
                           <div className="mt-2 flex flex-col h-full">
-                              <h1 className="text-2xl font-semibold">{currentWeather.humidity}%</h1>
+                              <h1 className="text-2xl font-semibold">{currentWeather.pressure_mb}</h1>
+                          </div>
+                      </div>
+
+                      <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                        <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                          <i className="fa-solid fa-chart-line-up"></i>
+                          <h5>Average</h5>
+                          </div>
+                          <div className="mt-2 flex flex-col h-full">
+                          <h1 className="text-2xl font-semibold">
+                            {currentWeather.temp_c - foreCast.forecastday[0].day.maxtemp_c > 0
+                              ? `+${Math.round(currentWeather.temp_c - foreCast.forecastday[0].day.maxtemp_c).toFixed(0)}`
+                              : `${Math.round((currentWeather.temp_c - foreCast.forecastday[0].day.maxtemp_c).toFixed(0))}`
+                            }
+                          </h1>
+
+                              <h1 className="text-sm font-semibold">Average daily high</h1>
+                          </div>
+                          <div className="flex justify-between text-xs">
+                              <div>
+                                <h1>Today</h1>
+                                <h1>Average</h1>
+                              </div>
+                              <div>
+                                <h1>{Math.round(currentWeather.temp_c)}°</h1>
+                                <h1>{Math.round(foreCast.forecastday[0].day.maxtemp_c)}°</h1>
+                              </div>
                           </div>
                       </div>
                       

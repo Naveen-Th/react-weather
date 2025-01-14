@@ -6,6 +6,7 @@ import Snow from './assets/snow.svg';
 import clearNight from './assets/clear-night.svg';
 import Mist from './assets/mist.svg';
 import overCast from './assets/overcast-day.svg';
+import Rain from './assets/rain.svg';
 /*
 import CloudyImg from './assets/Cloudy.svg'; */// Replace with actual paths
 
@@ -30,6 +31,10 @@ export const Image = ({ onCondition }) => {
                 return Mist
             case "Overcast":
                 return overCast
+            case "Rain":
+            case "Moderate rain":
+            case "Light rain":
+                return Rain;
             default:
                 return PartlyCloudyImg; // Default to Partly Cloudy if no condition matches
         }
