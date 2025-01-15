@@ -125,21 +125,23 @@ export const Weather = ({ children, onWeather }) => {
                 </div>
               </div>
 
-              <div className="mt-5 flex w-full flex-col items-stretch rounded-3xl bg-white p-4 shadow-lg">
+              <div className="mt-5 flex w-full flex-col items-stretch rounded-3xl bg-white p-4 shadow-lg
+              
+              ">
                 <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                   <i className="fa-solid fa-clock-two"></i>
                   <h5>Hourly Forecast</h5>
                 </div>
-                <div className="flex gap-3 overflow-x-auto p-3">
+                <div className="flex gap-4 md:gap-2 overflow-x-auto p-0 md:p-1 mt-2">
                   {
                     foreCast.forecastday[0].hour.map((hour, index) => {
-                      const condition = hour.condition.text;  // e.g., "Sunny", "Rain"
+                      const condition = hour.condition.text.trim('').toLowerCase();  // e.g., "Sunny", "Rain"
                       const is_day = hour.is_day;  // 1 for day, 0 for night
 
                       return (
                         <div key={index} className="flex flex-col items-center">
                           <h4 className="text-xs font-medium">{hour.time.slice(11)}</h4>
-                          <div className="flex flex-col gap-1 items-center">
+                          <div className="flex flex-col items-center">
                             <HourlyImg condition={condition} day={is_day} />
                             <p className="text-xs">{Math.round(hour.temp_c)}°</p>
                           </div>
