@@ -113,8 +113,8 @@ export const HourlyImg = ({ condition, day }) => {
     };
   
     return (
-      <div className="w-10 h-10 md:w-16 md:h-16">
-        <img className="w-10 h-10 md:w-16 md:h-16 object-contain" src={getImage(condition, day)} alt={condition} />
+      <div className="w-12 h-12 md:w-16 md:h-16">
+        <img className="w-12 h-12 md:w-16 md:h-16 object-contain" src={getImage(condition, day)} alt={condition} />
       </div>
     );
   };
