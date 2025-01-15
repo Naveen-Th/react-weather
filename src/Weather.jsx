@@ -95,13 +95,13 @@ export const Weather = ({ children, onWeather }) => {
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col ">
                     <h4 className="font-semibold">{location.name}<sup><i className="fa-solid fa-location-arrow ml-1"></i></sup></h4>
-                    <h1 className="text-8xl">{Math.round(currentWeather.temp_c)}°</h1>
+                    <h1 className="text-4xl md:text-8xl">{Math.round(currentWeather.temp_c)}°</h1>
                   </div>
                   <Image onCondition={currentWeather.condition.text}></Image>
                 </div>
 
-                <div className="mt-8 flex flex-row justify-between">
-                  <div className="flex flex-col gap-1">
+                <div className="mt-0 md:mt-10 flex flex-row justify-between">
+                  <div className="flex flex-col gap-1 md:text-base text-sm">
                     <div className="flex flex-row gap-1">
                       <p>Real Feel {Math.round(currentWeather.feelslike_c)}°</p>
                     </div>
@@ -125,14 +125,14 @@ export const Weather = ({ children, onWeather }) => {
                 </div>
               </div>
 
-              <div className="mt-5 flex w-full flex-col items-stretch rounded-3xl bg-white p-4 shadow-lg
-              
+              <div className="mt-6 md:mt-3 flex w-full  flex-col items-stretch rounded-3xl bg-white px-4 py-3 shadow-lg
+              overflow-hidden
               ">
                 <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                   <i className="fa-solid fa-clock-two"></i>
                   <h5>Hourly Forecast</h5>
                 </div>
-                <div className="flex gap-4 md:gap-2 overflow-x-auto p-0 md:p-1 mt-2">
+                <div className="flex gap-4 md:gap-2 overflow-x-auto py-1 mt-2">
                   {
                     foreCast.forecastday[0].hour.map((hour, index) => {
                       const condition = hour.condition.text.trim('').toLowerCase();  // e.g., "Sunny", "Rain"
@@ -282,7 +282,7 @@ export const Weather = ({ children, onWeather }) => {
                   </div>
                 </div>
 
-                <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                <div className="flex h-40 w-full col-span-2 flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
                   <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                     <i className="fa-solid fa-chart-line-up"></i>
                     <h5>Average</h5>

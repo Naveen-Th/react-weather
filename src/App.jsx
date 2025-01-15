@@ -23,7 +23,7 @@ function App() {
       const data = await res.json();
       console.log(data);
       setCurrentWeather(data);
-      await new Promise((resolve) => setTimeout(resolve, 100)); 
+      await new Promise((resolve) => setTimeout(resolve, 1000)); 
       setLoading(false); 
       }catch(err){
         setErr(err)
