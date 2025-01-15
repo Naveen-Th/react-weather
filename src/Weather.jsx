@@ -106,7 +106,7 @@ export const Weather = ({ children, onWeather }) => {
                       <p>Real Feel {Math.round(currentWeather.feelslike_c)}°</p>
                     </div>
                     <div className="flex flex-row gap-1">
-                      <p>Wind {Math.round(currentWeather.wind_kph)} KP/H</p>
+                      <p>Wind {Math.round(currentWeather.wind_kph)} km/h</p>
                     </div>
                     <div className="flex flex-row gap-1">
                       <p>Humidity {Math.round(currentWeather.humidity)}%</p>
@@ -125,7 +125,7 @@ export const Weather = ({ children, onWeather }) => {
                 </div>
               </div>
 
-              <div className="mt-6 md:mt-3 flex w-full  flex-col items-stretch rounded-3xl bg-white px-4 py-3 shadow-lg
+              <div className="mt-6 md:mt-3 flex w-full  flex-col items-stretch rounded-3xl bg-white px-4 pt-3 shadow-lg
               overflow-hidden
               ">
                 <div className="flex flex-row gap-1 items-center text-sm font-semibold">
@@ -140,7 +140,8 @@ export const Weather = ({ children, onWeather }) => {
 
                       return (
                         <div key={index} className="flex flex-col items-center">
-                          <h4 className="text-xs font-medium">{hour.time.slice(11)}</h4>
+                          <h4 className="text-sm font-normal">{hour.time.slice(11)}</h4>
+                          <p className="text-blue-600 text-xs">{hour.chance_of_rain > 1 ? `${hour.chance_of_rain}%` : '--' }</p>
                           <div className="flex flex-col items-center">
                             <HourlyImg condition={condition} day={is_day} />
                             <p className="text-xs">{Math.round(hour.temp_c)}°</p>
@@ -183,6 +184,7 @@ export const Weather = ({ children, onWeather }) => {
 
 
                 <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg">
+                  
                   <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                     <i className="fa-solid fa-sunrise"></i>
                     <h5>Sunrise</h5>
@@ -191,6 +193,7 @@ export const Weather = ({ children, onWeather }) => {
                     <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].astro.sunrise}</h1>
                   </div>
                   <p className="text-xs">Sunset {foreCast.forecastday[0].astro.sunset}</p>
+
                 </div>
 
                 <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
@@ -199,7 +202,7 @@ export const Weather = ({ children, onWeather }) => {
                     <h5>Wind</h5>
                   </div>
                   <div className="mt-2 flex flex-col h-full">
-                    <h1 className="text-2xl font-semibold">{Math.round(currentWeather.wind_kph)} Kp/h</h1>
+                    <h1 className="text-2xl font-semibold">{Math.round(currentWeather.wind_kph)} km/h</h1>
                   </div>
                   <div className="flex gap-1">
                     <i className="fa-sharp fa-solid fa-compass"></i>
