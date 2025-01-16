@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import ApexCharts from 'react-apexcharts';
 
-export const ReactApexChart = ({ fullhr }) => {
+export const ReactApexChart = ({ days }) => {
   // Calculate two_Hour only when fullhr changes
-  const two_Hour = useMemo(() => fullhr.filter((_, index) => index % 2 === 0), [fullhr]);
+  const two_Hour = useMemo(() => days.filter((_, index) => index % 2 === 0), [days]);
 
   const [state, setState] = useState({
     type: "line",
@@ -66,24 +66,24 @@ export const ReactApexChart = ({ fullhr }) => {
         },
         labels: {
           style: {
-            colors: "#B0BEC5", // Light gray for axis labels
+            colors: "black", // Light gray for axis labels
             fontSize: "12px",   // Smaller font size
             fontFamily: "inherit",
-            fontWeight: 400,
+            fontWeight: 600,
           },
           rotate: -45, // Rotate x-axis labels for better readability
         },
         categories: [
-          "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24"
+          "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
         ],
       },
       yaxis: {
         labels: {
           style: {
-            colors: "#B0BEC5", // Light gray for the y-axis labels
+            colors: "black", // Light gray for the y-axis labels
             fontSize: "12px", // Smaller font size
             fontFamily: "inherit",
-            fontWeight: 400,
+            fontWeight: 500,
           },
         },
       },
@@ -93,7 +93,7 @@ export const ReactApexChart = ({ fullhr }) => {
         strokeDashArray: 6,  // Dashed grid lines for a cleaner look
         xaxis: {
           lines: {
-            show: false,  // Hide x-axis lines
+            show: true,  // Hide x-axis lines
           },
         },
         yaxis: {
@@ -102,7 +102,7 @@ export const ReactApexChart = ({ fullhr }) => {
           },
         },
         padding: {
-          top: 0,
+          top:0,
           right: 0,
         },
       },
@@ -141,7 +141,7 @@ export const ReactApexChart = ({ fullhr }) => {
       series: [
         {
           name: "Temp",
-          data: two_Hour,
+          data: days,
         }
       ],
       options: {

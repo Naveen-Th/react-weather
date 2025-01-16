@@ -38,7 +38,7 @@ export const Search = ({ onSearch }) => {
     },[search]);
 
     return (
-        <div>
+        <div className=" p-0 md:p-2 flex w-full justify-between bg-white/0 md:top-2 rounded-full ">
             <AsyncPaginate
                 cacheOptions
                 placeholder="Search city.."
@@ -46,7 +46,7 @@ export const Search = ({ onSearch }) => {
                 value={search}
                 debounceTimeout={300}
                 loadOptions={loadOptions}
-                className="bg-black text-black text-start p-1 border border-amber-50 rounded-xl outline-none font-bold" 
+                className="bg-white text-black text-start p-1 border-0 w-full md:w-4/12 shadow-lg rounded-xl font-bold" 
             />
         </div>
     );

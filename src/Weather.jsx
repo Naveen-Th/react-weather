@@ -3,7 +3,6 @@ import { ReactApexChart } from "./ReactApexChart";
 import { Image } from "./Image";
 import { HourlyImg } from "./Image";
 
-
 var air_condition;
 var air_desc
 const getAir = (air) => {
@@ -72,13 +71,14 @@ export const Weather = ({ children, onWeather }) => {
   getAir(air);
   getUv(uv);
 
-  const tomorrowWeather = onWeather.forecast.forecastday[1];
-  const hourCondition = onWeather.forecast.forecastday[0].hour.map((hour) => hour.condition.text);
-
   const date = new Date();
   const day = date.getDay();
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const today = days[day];
+
+  const ten_days = foreCast.forecastday.map((days) => days.day.maxtemp_c);
+  console.log(ten_days);
+
   return (
     <div className="min-h-screen text-black font-sans" >
       <div className="container mx-auto px-4 py-8">
@@ -97,7 +97,10 @@ export const Weather = ({ children, onWeather }) => {
                     <h4 className="font-semibold">{location.name}<sup><i className="fa-solid fa-location-arrow ml-1"></i></sup></h4>
                     <h1 className="text-4xl md:text-8xl">{Math.round(currentWeather.temp_c)}°</h1>
                   </div>
-                  <Image onCondition={currentWeather.condition.text}></Image>
+                  { /*<Image onCondition={currentWeather.condition.text} day={hour.is_day}></Image> */ }
+                  <HourlyImg condition={currentWeather.condition.text.trim('').toLowerCase()} day={currentWeather.is_day} 
+                  className="w-52 h-52"
+                  />
                 </div>
 
                 <div className="mt-0 md:mt-10 flex flex-row justify-between">
@@ -125,26 +128,28 @@ export const Weather = ({ children, onWeather }) => {
                 </div>
               </div>
 
-              <div className="mt-6 md:mt-3 flex w-full  flex-col items-stretch rounded-3xl bg-white px-4 pt-3 shadow-lg
-              overflow-hidden
-              ">
+              <div className="mt-6 md:mt-5 flex w-full flex-col items-stretch py-5 px-5 rounded-3xl bg-white  shadow-lg overflow-hidden">
                 <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                   <i className="fa-solid fa-clock-two"></i>
                   <h5>Hourly Forecast</h5>
                 </div>
-                <div className="flex gap-4 md:gap-2 overflow-x-auto py-1 mt-2">
+
+                {/* Add scrollbar styling to the container with overflow-x-auto */}
+                <div className="flex gap-6 md:gap-2 mt-4 overflow-x-auto scrollbar-none">
                   {
-                    foreCast.forecastday[0].hour.map((hour, index) => {
+                    foreCast.forecastday[0].hour.map((hour) => {
                       const condition = hour.condition.text.trim('').toLowerCase();  // e.g., "Sunny", "Rain"
                       const is_day = hour.is_day;  // 1 for day, 0 for night
 
                       return (
-                        <div key={index} className="flex flex-col items-center">
+                        <div key={hour.time} className="flex flex-col items-center">
                           <h4 className="text-sm font-normal">{hour.time.slice(11)}</h4>
-                          <p className="text-blue-600 text-xs">{hour.chance_of_rain > 1 ? `${hour.chance_of_rain}%` : '--' }</p>
+                          
                           <div className="flex flex-col items-center">
-                            <HourlyImg condition={condition} day={is_day} />
-                            <p className="text-xs">{Math.round(hour.temp_c)}°</p>
+                          
+                            <HourlyImg condition={condition} day={is_day}  />
+                            <p className="text-sm">{Math.round(hour.temp_c)}°</p>
+                            <p className="text-blue-600 text-sm">{hour.chance_of_rain > 1 ? `${hour.chance_of_rain}%` : null}</p>
                           </div>
                         </div>
                       );
@@ -152,6 +157,7 @@ export const Weather = ({ children, onWeather }) => {
                   }
                 </div>
               </div>
+
 
             </div>
 
@@ -184,16 +190,30 @@ export const Weather = ({ children, onWeather }) => {
 
 
                 <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg">
-                  
-                  <div className="flex flex-row gap-1 items-center text-sm font-semibold">
-                    <i className="fa-solid fa-sunrise"></i>
-                    <h5>Sunrise</h5>
-                  </div>
-                  <div className="mt-2 flex flex-col h-full">
-                    <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].astro.sunrise}</h1>
-                  </div>
-                  <p className="text-xs">Sunset {foreCast.forecastday[0].astro.sunset}</p>
 
+                  {currentWeather.is_day === 0 ? 
+                  <>
+                    <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                      <i className="fa-solid fa-sunrise"></i>
+                      <h5>Sunrise</h5>
+                    </div>
+                    <div className="mt-2 flex flex-col h-full">
+                      <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].astro.sunrise}</h1>
+                    </div>
+                    <p className="text-xs">Sunset {foreCast.forecastday[0].astro.sunset}</p>
+                  </>
+                  :
+                  <>
+                    <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                      <i className="fa-solid fa-sunset"></i>
+                      <h5>Sunset</h5>
+                    </div>
+                    <div className="mt-2 flex flex-col h-full">
+                      <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].astro.sunset}</h1>
+                    </div>
+                    <p className="text-xs">Sunrise {foreCast.forecastday[0].astro.sunrise}</p>
+                  </>
+                }
                 </div>
 
                 <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
@@ -285,7 +305,7 @@ export const Weather = ({ children, onWeather }) => {
                   </div>
                 </div>
 
-                <div className="flex h-40 w-full col-span-2 flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                <div className="flex h-40 w-full  flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
                   <div className="flex flex-row gap-1 items-center text-sm font-semibold">
                     <i className="fa-solid fa-chart-line-up"></i>
                     <h5>Average</h5>
@@ -297,7 +317,6 @@ export const Weather = ({ children, onWeather }) => {
                         : `${Math.round((currentWeather.temp_c - foreCast.forecastday[0].day.maxtemp_c).toFixed(0))}`
                       }
                     </h1>
-
                     <h1 className="text-sm font-semibold">Average daily high</h1>
                   </div>
                   <div className="flex justify-between text-xs">
@@ -312,11 +331,33 @@ export const Weather = ({ children, onWeather }) => {
                   </div>
                 </div>
 
+                <div className="flex h-40 w-full flex-col items-stretch overflow-hidden rounded-3xl bg-white p-4 shadow-lg ">
+                  <div className="flex flex-row gap-1 items-center text-sm font-semibold">
+                    <i className="fa-solid fa-moon-stars"></i>
+                    <h5>{foreCast.forecastday[0].astro.moon_phase}</h5>
+                  </div>
+                  <div className="mt-2 flex flex-col h-full text-xs">
+                    <div className="flex items-center gap-3">
+                      <p >Illumination</p>
+                      <h1 className="font-semibold">{foreCast.forecastday[0].astro.moon_illumination}</h1>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <p>Moon Rise</p>
+                      <h1 className="font-semibold">{foreCast.forecastday[0].astro.moonrise}</h1>
+                    </div>
+
+                  </div>
+                </div>
+    
               </div>
+
+              
             </div>
-
           </div>
-
+          
+              <div className="mt-5 w-full overflow-hidden rounded-3xl bg-white p-2 shadow-lg  appearance-none">
+                <ReactApexChart days={ten_days}></ReactApexChart>
+              </div>
         </main>
       </div>
     </div>
