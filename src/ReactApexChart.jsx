@@ -1,16 +1,14 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import ApexCharts from 'react-apexcharts';
 
-export const ReactApexChart = ({ days }) => {
-  // Calculate two_Hour only when fullhr changes
-  const two_Hour = useMemo(() => days.filter((_, index) => index % 2 === 0), [days]);
-
+export const ReactApexChart = ({ hrs }) => {
+  
   const [state, setState] = useState({
     type: "line",
     series: [
       {
         name: "Temp",
-        data: two_Hour,
+        data: hrs,
       }
     ],
     options: {
@@ -23,7 +21,7 @@ export const ReactApexChart = ({ days }) => {
         }
       },
       dataLabels: {
-        enabled: false,  // Disable data labels
+        enabled:false
       },
       
       forecastDataPoints: {
@@ -55,33 +53,33 @@ export const ReactApexChart = ({ days }) => {
         colors: ['orangered'],
       },
       markers: {
-        size: 0, // No markers, just the line
+        size: 0, 
       },
       xaxis: {
         axisTicks: {
-          show: false,  // Hide x-axis ticks for minimal design
+          show: false,  
         },
         axisBorder: {
-          show: false,  // Hide axis borders
+          show: false,  
         },
         labels: {
           style: {
-            colors: "black", // Light gray for axis labels
-            fontSize: "12px",   // Smaller font size
+            colors: "black", 
+            fontSize: "12px",   
             fontFamily: "inherit",
-            fontWeight: 600,
+            fontWeight: 600
           },
-          rotate: -45, // Rotate x-axis labels for better readability
+          rotate: -45, 
         },
         categories: [
-          "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+          "0", "2", "4", "8", "10", "12", "14", "16", "18", "20","22","24"
         ],
       },
       yaxis: {
         labels: {
           style: {
-            colors: "black", // Light gray for the y-axis labels
-            fontSize: "12px", // Smaller font size
+            colors: "black", 
+            fontSize: "12px", 
             fontFamily: "inherit",
             fontWeight: 500,
           },
@@ -89,16 +87,16 @@ export const ReactApexChart = ({ days }) => {
       },
       grid: {
         show: true,
-        borderColor: "#ECEFF1", // Very light grid lines
-        strokeDashArray: 6,  // Dashed grid lines for a cleaner look
+        borderColor: "#ECEFF1", 
+        strokeDashArray: 6,  
         xaxis: {
           lines: {
-            show: true,  // Hide x-axis lines
+            show: true,  
           },
         },
         yaxis: {
           lines: {
-            show: false,  // Hide y-axis lines
+            show: false,  
           },
         },
         padding: {
@@ -107,9 +105,9 @@ export const ReactApexChart = ({ days }) => {
         },
       },
       tooltip: {
-        theme: "dark", // Dark tooltip for modern look
+        theme: "dark", 
         style: {
-          fontSize: "12px", // Tooltip font size
+          fontSize: "12px", 
           fontFamily: "inherit",
         },
       },
@@ -118,17 +116,17 @@ export const ReactApexChart = ({ days }) => {
 
   // Function to determine styles based on screen size
   const getResponsiveStyles = () => {
-    if (window.innerWidth >= 1024) { // Desktop breakpoint
+    if (window.innerWidth >= 1024) { 
       return {
-        height: '350px', // Height for desktop
-        xAxisFontSize: '14px', // Larger font size for x-axis labels
-        yAxisFontSize: '14px', // Larger font size for y-axis labels
+        height: '350px', 
+        xAxisFontSize: '14px',
+        yAxisFontSize: '14px', 
       };
     } else {
       return {
-        height: '210px', // Height for mobile
-        xAxisFontSize: '12px', // Smaller font size for x-axis labels
-        yAxisFontSize: '12px', // Smaller font size for y-axis labels
+        height: '210px', 
+        xAxisFontSize: '12px', 
+        yAxisFontSize: '12px', 
       };
     }
   };
@@ -141,7 +139,7 @@ export const ReactApexChart = ({ days }) => {
       series: [
         {
           name: "Temp",
-          data: days,
+          data: hrs,
         }
       ],
       options: {
@@ -168,11 +166,11 @@ export const ReactApexChart = ({ days }) => {
         },
       },
     }));
-  }, [two_Hour, xAxisFontSize, yAxisFontSize]);
+  }, [hrs, xAxisFontSize, yAxisFontSize]);
 
   return (
-    <div style={{ width: '100%', height: height }}> {/* Set dynamic height based on screen size */}
-      <div id="chart" style={{ height: '100%' }}> {/* Ensure the chart takes full height */}
+    <div style={{ width: '100%', height: height }}> 
+      <div id="chart" style={{ height: '100%' }}> 
         <ApexCharts options={state.options} series={state.series} type="area" height="100%" />
       </div>
     </div>

@@ -3,9 +3,11 @@ import { Search } from './Search';
 import { useEffect, useState } from 'react';
 import { Weather } from './Weather';
 import { Weather_Api } from './api';
+import {Login} from './Login'
 
 function App() {
 
+  const [user, setUser] = useState(null);
   const [selected,setSelected] = useState({value: 'Bangalore', label: 'Bangalore'});
   const [currentWeather,setCurrentWeather] = useState(null);
   const [loading,setLoading] = useState(true);
@@ -38,10 +40,14 @@ function App() {
    
   return (
     <>
-      {loading ? <p className='flex items-center justify-center h-96'>Loading...</p> : <Weather onWeather={currentWeather}>
-          <Search onSearch={handleSelected}></Search>
-        </Weather>
-    }
+    { !user ? 
+      <Login setUser={setUser}></Login>
+      :  (
+          loading ? <p className='flex items-center justify-center h-96'>Loading...</p> : <Weather onWeather={currentWeather}>
+          <Search onSearch={handleSelected} setUser={setUser} user={user}></Search>
+          </Weather>
+        )
+      }
     </>
   )
 }

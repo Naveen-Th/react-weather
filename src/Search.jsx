@@ -2,7 +2,7 @@ import { AsyncPaginate } from "react-select-async-paginate";
 import { useState, useEffect } from "react";
 import { Api_Url } from "./api";
 
-export const Search = ({ onSearch }) => {
+export const Search = ({ onSearch,setUser,user }) => {
     // Set the default selected city to Bangalore
     const [search, setSearch] = useState('');
 
@@ -38,7 +38,7 @@ export const Search = ({ onSearch }) => {
     },[search]);
 
     return (
-        <div className=" p-0 md:p-2 flex w-full justify-between bg-white/0 md:top-2 rounded-full ">
+        <div className="flex items-center justify-between gap-2 sticky w-full  top-0 p-0 bg-white rounded-xl">
             <AsyncPaginate
                 cacheOptions
                 placeholder="Search city.."
@@ -46,8 +46,9 @@ export const Search = ({ onSearch }) => {
                 value={search}
                 debounceTimeout={300}
                 loadOptions={loadOptions}
-                className="bg-white text-black text-start p-1 border-0 w-full md:w-4/12 shadow-lg rounded-xl font-bold" 
+                className="bg-white text-black text-start p-1 border-0 w-11/12 shadow-lg rounded-lg font-bold" 
             />
+            <button onClick={() => setUser(null)}><i className="fa-solid fa-arrow-right-from-bracket text-xl rounded-lg shadow-lg bg-white p-2"></i></button>
         </div>
     );
-};
+}; 

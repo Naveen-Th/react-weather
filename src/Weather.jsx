@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ReactApexChart } from "./ReactApexChart";
-import { Image } from "./Image";
 import { HourlyImg } from "./Image";
+import { HourlyImg1 } from "./Image";
 
 var air_condition;
 var air_desc
@@ -76,9 +76,9 @@ export const Weather = ({ children, onWeather }) => {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const today = days[day];
 
-  const ten_days = foreCast.forecastday.map((days) => days.day.maxtemp_c);
-  console.log(ten_days);
-
+  const full_hr = foreCast.forecastday[0].hour.map((hour) => Math.round(hour.temp_c));
+  const two_hr = full_hr.filter((_,i) => i % 2 == 0);
+  
   return (
     <div className="min-h-screen text-black font-sans" >
       <div className="container mx-auto px-4 py-8">
@@ -95,15 +95,14 @@ export const Weather = ({ children, onWeather }) => {
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col ">
                     <h4 className="font-semibold">{location.name}<sup><i className="fa-solid fa-location-arrow ml-1"></i></sup></h4>
-                    <h1 className="text-4xl md:text-8xl">{Math.round(currentWeather.temp_c)}°</h1>
+                    <h1 className="text-6xl md:text-8xl">{Math.round(currentWeather.temp_c)}°</h1>
                   </div>
-                  { /*<Image onCondition={currentWeather.condition.text} day={hour.is_day}></Image> */ }
-                  <HourlyImg condition={currentWeather.condition.text.trim('').toLowerCase()} day={currentWeather.is_day} 
+                  <HourlyImg1 condition={currentWeather.condition.text.trim('').toLowerCase()} day={currentWeather.is_day} 
                   className="w-52 h-52"
                   />
                 </div>
 
-                <div className="mt-0 md:mt-10 flex flex-row justify-between">
+                <div className="flex flex-row justify-between">
                   <div className="flex flex-col gap-1 md:text-base text-sm">
                     <div className="flex flex-row gap-1">
                       <p>Real Feel {Math.round(currentWeather.feelslike_c)}°</p>
@@ -115,6 +114,7 @@ export const Weather = ({ children, onWeather }) => {
                       <p>Humidity {Math.round(currentWeather.humidity)}%</p>
                     </div>
                   </div>
+
                   <div className="ml-1 self-end">
                     <div className="flex flex-col text-right">
                       <p className="">{currentWeather.condition.text}</p>
@@ -134,12 +134,11 @@ export const Weather = ({ children, onWeather }) => {
                   <h5>Hourly Forecast</h5>
                 </div>
 
-                {/* Add scrollbar styling to the container with overflow-x-auto */}
                 <div className="flex gap-6 md:gap-2 mt-4 overflow-x-auto scrollbar-none">
                   {
                     foreCast.forecastday[0].hour.map((hour) => {
-                      const condition = hour.condition.text.trim('').toLowerCase();  // e.g., "Sunny", "Rain"
-                      const is_day = hour.is_day;  // 1 for day, 0 for night
+                      const condition = hour.condition.text.trim('').toLowerCase();
+                      const is_day = hour.is_day;  
 
                       return (
                         <div key={hour.time} className="flex flex-col items-center">
@@ -200,7 +199,7 @@ export const Weather = ({ children, onWeather }) => {
                     <div className="mt-2 flex flex-col h-full">
                       <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].astro.sunrise}</h1>
                     </div>
-                    <p className="text-xs">Sunset {foreCast.forecastday[0].astro.sunset}</p>
+                    <p className="text-xs"><i className="fa-solid fa-sunset"></i> Sunset {foreCast.forecastday[0].astro.sunset}</p>
                   </>
                   :
                   <>
@@ -211,7 +210,7 @@ export const Weather = ({ children, onWeather }) => {
                     <div className="mt-2 flex flex-col h-full">
                       <h1 className="text-2xl font-semibold">{foreCast.forecastday[0].astro.sunset}</h1>
                     </div>
-                    <p className="text-xs">Sunrise {foreCast.forecastday[0].astro.sunrise}</p>
+                    <p className="text-xs "><i className="fa-solid fa-sunrise"></i> Sunrise {foreCast.forecastday[0].astro.sunrise}</p>
                   </>
                 }
                 </div>
@@ -339,11 +338,11 @@ export const Weather = ({ children, onWeather }) => {
                   <div className="mt-2 flex flex-col h-full text-xs">
                     <div className="flex items-center gap-3">
                       <p >Illumination</p>
-                      <h1 className="font-semibold">{foreCast.forecastday[0].astro.moon_illumination}</h1>
+                      <h1 className="font-semibold text-end">{foreCast.forecastday[0].astro.moon_illumination}</h1>
                     </div>
                     <div className="flex items-center gap-3">
                       <p>Moon Rise</p>
-                      <h1 className="font-semibold">{foreCast.forecastday[0].astro.moonrise}</h1>
+                      <h1 className="font-semibold text-end">{foreCast.forecastday[0].astro.moonrise}</h1>
                     </div>
 
                   </div>
@@ -355,9 +354,9 @@ export const Weather = ({ children, onWeather }) => {
             </div>
           </div>
           
-              <div className="mt-5 w-full overflow-hidden rounded-3xl bg-white p-2 shadow-lg  appearance-none">
-                <ReactApexChart days={ten_days}></ReactApexChart>
-              </div>
+            <div className="mt-5 w-full overflow-hidden rounded-3xl bg-white p-2 shadow-lg  appearance-none">
+                <ReactApexChart hrs={two_hr}></ReactApexChart>
+            </div>
         </main>
       </div>
     </div>
